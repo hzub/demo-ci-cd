@@ -4,7 +4,7 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-module.exports = {
+module.exports = env => ({
   context: path.resolve(__dirname, 'src'),
   entry: {
     app: './index.js',
@@ -20,7 +20,10 @@ module.exports = {
     }]),
     new MiniCssExtractPlugin({
       filename: 'main.css',
-    })
+    }),
+    new webpack.DefinePlugin({
+      ENVIRONMENT: JSON.stringify(env.environment)
+    }),
   ],
   module: {
     rules: [
@@ -36,4 +39,4 @@ module.exports = {
       }
     ]
   }
-};
+});

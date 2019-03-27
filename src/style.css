@@ -1,0 +1,7 @@
+html, body {
+  font-family: sans-serif;
+}
+
+#css-checker::after {
+  content: 'True!';
+}

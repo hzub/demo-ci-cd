@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "copy-webpack-plugin": "^5.0.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server --content-base=./src/ --inline --hot",
+    "start": "npm run dev",
+    "test": "node src/modules/jsChecker.test.js"
+  },
+  "devDependencies": {
+    "assert": "^1.4.1",
+    "css-loader": "^2.1.1",
+    "mini-css-extract-plugin": "^0.5.0"
+  }
+}

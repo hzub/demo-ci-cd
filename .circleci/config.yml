@@ -34,4 +34,5 @@ workflows:
             branches:
               only: master
   test:
-    jobs: - test
+    jobs:
+      - test

@@ -6,14 +6,14 @@ jobs:
     docker:
       - image: circleci/python:2.7-node
     environment:
-      AWS_REGION: us-east-1
+      AWS_REGION: eu-north-1
     steps:
       - checkout
       - run: npm install
       - run: npm run build
       - aws-s3/sync:
           from: dist
-          to: 's3://demo-ci-cd-article/'
+          to: 's3://rezolvent-first/'
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400" \

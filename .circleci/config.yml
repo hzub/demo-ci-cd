@@ -34,6 +34,13 @@ jobs:
             --acl public-read \
             --cache-control "max-age=86400" \
           overwrite: true
+  test:
+    docker:
+      - image: circleci/python:2.7-node
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test
 workflows:
   version: 2.1
   build:
@@ -48,3 +55,6 @@ workflows:
           filters:
             branches:
               only: develop
+  test:
+    jobs:
+      - test

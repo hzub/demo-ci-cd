@@ -40,7 +40,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      -run npm run test
+      - run: npm run test
 workflows:
   version: 2.1
   build:

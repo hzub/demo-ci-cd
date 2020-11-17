@@ -1,19 +1,19 @@
 version: 2.1
 orbs:
-  aws-s3: circleci/aws-s3@1.0.4
+  aws-s3: circleci/aws-s3@2.0.0
 jobs:
   build:
     docker:
-      - image: circleci/python:2.7-node
+      - image: circleci/python:3.6-node
     environment:
-      AWS_REGION: us-east-1
+      AWS_REGION: eu-central-1
     steps:
       - checkout
       - run: npm install
       - run: npm run build
       - aws-s3/sync:
           from: dist
-          to: 's3://demo-ci-cd-article/'
+          to: "s3://my-hosted-demo-ci-cd"
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400" \

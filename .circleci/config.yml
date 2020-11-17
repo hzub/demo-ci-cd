@@ -4,7 +4,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/python:2.7-node
+      - image: "cimg/python:3.6-node"
     environment:
       AWS_REGION: eu-central-1
     steps:
@@ -12,12 +12,11 @@ jobs:
       - run: npm install
       - run: npm run build
       - aws-s3/sync:
-          from: dist
-          to: "s3://my-hosted-demo-ci-cd/"
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400" \
-          overwrite: true
+          from: dist
+          to: "s3://my-hosted-demo-ci-cd"
 workflows:
   version: 2.1
   build:

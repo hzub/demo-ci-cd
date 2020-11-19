@@ -1,4 +1,4 @@
-const getMessage = require('./jsChecker');
-const assert = require('assert');
+const getMessage = require("./jsChecker");
+const assert = require("assert");
 
-assert.equal(getMessage(), 'True!');
+assert.equal(getMessage(), "True!fsdfs");

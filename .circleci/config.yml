@@ -17,6 +17,21 @@ jobs:
             --cache-control "max-age=86400" \
           from: dist
           to: "s3://my-hosted-demo-ci-cd"
+  boild-staging:
+    docker:
+      - image: "cimg/python:3.6-node"
+    environment:
+      AWS_REGION: eu-central-1
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build:staging
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400" \
+          from: dist
+          to: "s3://my-hosted-demo-ci-cd"
 workflows:
   version: 2.1
   build:
@@ -25,3 +40,9 @@ workflows:
           filters:
             branches:
               only: master
+  build-staging:
+    jobs:
+      - build-staging:
+          filters:
+            branches:
+              only: develop

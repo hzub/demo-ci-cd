@@ -32,6 +32,13 @@ jobs:
             --cache-control "max-age=86400" \
           from: dist
           to: "s3://my-hosted-demo-ci-cd"
+  test:
+    docker:
+      - image: "cimg/python:3.6-node"
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test
 workflows:
   version: 2.1
   build:
@@ -46,3 +53,5 @@ workflows:
           filters:
             branches:
               only: develop
+  test:
+    jobs: -test

@@ -54,4 +54,5 @@ workflows:
             branches:
               only: develop
   test:
-    jobs: -test
+    jobs:
+      -test:

@@ -18,6 +18,22 @@ jobs:
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400" \
+  build-staging:
+    docker:
+      - image: circleci/python:2.7-node
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build:staging
+      - aws-s3/sync:
+          from: dist
+          to: 's3://my-demo-ci-cd/'
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-region: AWS_REGION
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400" \
 workflows:
   version: 2
   build:
@@ -26,3 +42,9 @@ workflows:
           filters:
             branches:
               only: master
+  build-staging:
+    jobs:
+      - build-staging:
+          filters:
+            branches:
+              only: develop

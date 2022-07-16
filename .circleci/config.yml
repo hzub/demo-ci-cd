@@ -1,23 +1,44 @@
 version: 2.1
 orbs:
-  aws-s3: circleci/aws-s3@1.0.4
+  aws-s3: circleci/aws-s3@2.0.0
 jobs:
   build:
     docker:
-      - image: circleci/python:2.7-node
+      - image: "cimg/python:3.6-node"
     environment:
-      AWS_REGION: us-east-1
+      AWS_REGION: eu-central-1
     steps:
       - checkout
       - run: npm install
       - run: npm run build
       - aws-s3/sync:
-          from: dist
-          to: 's3://demo-ci-cd-article/'
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400" \
-          overwrite: true
+          from: dist
+          to: "s3://my-hosted-demo-ci-cd"
+  build-staging:
+    docker:
+      - image: "cimg/python:3.6-node"
+    environment:
+      AWS_REGION: eu-central-1
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build:staging
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400" \
+          from: dist
+          to: "s3://my-hosted-demo-ci-cd"
+  test:
+    docker:
+      - image: "cimg/python:3.6-node"
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test
 workflows:
   version: 2.1
   build:
@@ -26,3 +47,12 @@ workflows:
           filters:
             branches:
               only: master
+  build-staging:
+    jobs:
+      - build-staging:
+          filters:
+            branches:
+              only: develop
+  test:
+    jobs:
+      - test
